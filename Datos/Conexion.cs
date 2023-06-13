@@ -1,54 +1,57 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
 
-namespace Datos_Proyecto
+namespace Datos
 {
     public class Conexion
     {
-        private string Base;
+        private string Basededatos;
         private string Servidor;
+        private string Puerto;
         private string Usuario;
-        private string clave;
-        private bool seguridad;
-        private static Conexion con = null;
+        private string Clave;
+        private static Conexion Con = null;
 
 
         private Conexion()
         {
-            this.Base = "BD_Proyecto_Minimarket";
-            this.Servidor = "DESKTOP-RGP352F";
-            this.Usuario = "sistema";
-            this.clave = "12345678";
-            this.seguridad = false;
+            this.Basededatos = "bd_parcial";
+            this.Servidor = "localhost";
+            this.Puerto = "3306";
+            this.Usuario = "user_ventas";
+            this.Clave = "Alejandro23#";
         }
 
-        public SqlConnection crearconexion()
+
+        public MySqlConnection crearconexcion()
         {
-            SqlConnection cadena = new SqlConnection();
+            MySqlConnection Cadena = new MySqlConnection();
             try
             {
-                cadena.ConnectionString = ($"Server={Servidor};Database={Base};User Id={Usuario};Password={clave};");
+                Cadena.ConnectionString = ($"datasource={Servidor};Database={Basededatos};User Id={Usuario};Password={Clave};");
             }
             catch (Exception ex)
             {
-                cadena = null;
+                Cadena = null;
                 throw ex;
             }
-            return cadena;
+            return Cadena;
         }
+
 
         public static Conexion getInstancia()
         {
-            if (con == null)
+            if (Con == null)
             {
-                con = new Conexion();
+                Con = new Conexion();
             }
-            return con;
+            return Con;
         }
-
     }
 }
